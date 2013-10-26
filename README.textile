@@ -1,0 +1,68 @@
+h1. COBOL Buffers for Java
+
+Define a Buffer the same way you define it with COBOL and you'll be able to manage the byte[] returned by COBOL in a
+really easy way
+
+h1. Sample of use
+
+Given the following Buffer as you'd declare it with COBOL:
+
+<pre>
+1  CLIENT
+5  NAME                   PIC X(50)
+5  SURNAME                PIC X(50)
+5  BIRTHDAY               PIC X(10)
+5  MAX_PURCHASE_ALLOWED   PIC 9(10)
+5  CONTACT OCCURS 3
+10 DESCRIPTION            PIC X(20)
+10 PHONE                  PIC X(20)
+</pre>
+
+To define the previous Buffer in Java using BufferDescriptor:
+
+<pre>
+BufferDescriptor bd = new BufferBuilder()
+    .addDataDescription(1, "CLIENT")
+        .addDataDescription(5, "NAME", "X(50)")
+        .addDataDescription(5, "SURNAME", "X(50)")
+        .addDataDescription(5, "BIRTHDAY", "X(10)")
+        .addDataDescription(5, "MAX_PURCHASE_ALLOWED", "9(10)")
+        .addDataDescription(5, "CONTACT", 3);
+            .addDataDescription(10, "DESCRIPTION", "X(20)")
+            .addDataDescription(10, "PHONE", "X(20)")
+            .endDataDescription();
+</pre>
+
+And, after that, fill it with the byte[] received from COBOL:
+
+<pre>
+bd.setBuffer(byteArrayReceived);
+
+//...
+
+String name = bd.getString("NAME");
+String surname = bd.getString("SURNAME");
+Calendar birthday = bd.getDate("BIRTHDAY", "dd/MM/yyyy");
+long maxPurchaseAllowed = bd.getLong("MAX_PURCHASE_ALLOWED");
+String description1 = bd.getString("DESCRIPTION(1)");
+String phone1 = bd.getString("PHONE(1)");
+String description2 = bd.getString("DESCRIPTION(2)");
+String phone2 = bd.getString("PHONE(2)");
+String description3 = bd.getString("DESCRIPTION(3)");
+String phone3 = bd.getString("PHONE(3)");
+</pre>
+
+Or set the values and then get a byte[] so it can be sent to your COBOL program
+
+<pre>
+bd.setString("NAME", "JOSE");
+bd.setString("SURNAME", "SANZ");
+bd.setDate("BIRTHDAY", "26/11/1976");
+bd.setLong("MAX_PURCHASE_ALLOWED", 10000);
+bd.setString("DESCRIPTION(1)", "LANDLINE");
+bd.setString("PHONE(1)", "555-5555555);
+bd.setString("DESCRIPTION(2)", "MOBILE");
+bd.setString("PHONE(2)", "555-111111");
+
+byte[] buffer = bd.getBuffer();
+</pre>

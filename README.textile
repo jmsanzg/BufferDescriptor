@@ -57,7 +57,8 @@ Or set the values and then get a byte[] so it can be sent to your COBOL program
 <pre>
 bd.setString("NAME", "JOSE");
 bd.setString("SURNAME", "SANZ");
-bd.setDate("BIRTHDAY", "26/11/1976");
+Calendar birthday = Calendar.getInstance();
+bd.setDate("BIRTHDAY", birthday);
 bd.setLong("MAX_PURCHASE_ALLOWED", 10000);
 bd.setString("DESCRIPTION(1)", "LANDLINE");
 bd.setString("PHONE(1)", "555-5555555);

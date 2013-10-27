@@ -162,10 +162,10 @@ public class BufferBuilder {
         }
 
         boolean insertOk = false;
-        for (List<DataDescriptor> lista : parent.childs) {
-            int size = lista.size() - 1;
+        for (List<DataDescriptor> list : parent.children) {
+            int size = list.size() - 1;
             if (size >= 0) {
-                insertOk = appendChildDescriptor(lista.get(size), dd);
+                insertOk = appendChildDescriptor(list.get(size), dd);
             }
         }
         if (insertOk) {
@@ -174,12 +174,12 @@ public class BufferBuilder {
 
         DataDescriptor clone = (DataDescriptor) dd.clone();
         clone.indexPosition = parent.indexPosition;
-        List<DataDescriptor> list = parent.childs.get(0);
+        List<DataDescriptor> list = parent.children.get(0);
         list.add(clone);
         if (dd.occurs > 1) {
             clone.length = 0;
             int j = 0;
-            for (List<DataDescriptor> clonedList : clone.childs) {
+            for (List<DataDescriptor> clonedList : clone.children) {
                 DataDescriptor newClone = (DataDescriptor) dd.clone();
                 newClone.indexPosition = clone.indexPosition + '(' + (j + 1) + ')'; // Replaced to StringBuilder by javac, no worries...
                 j++;
@@ -212,8 +212,8 @@ public class BufferBuilder {
      */
     protected final void addToHash(final DataDescriptor dd, final Map<String, DataDescriptor> ht) {
         ht.put(dd.getName(), dd);
-        for (List<DataDescriptor> childs : dd.childs) {
-            for (DataDescriptor child : childs) {
+        for (List<DataDescriptor> children : dd.children) {
+            for (DataDescriptor child : children) {
             	addToHash(child, ht);
             }
         }
@@ -227,7 +227,7 @@ public class BufferBuilder {
     protected final int adjustLimit(final DataDescriptor dd, final int bi) {
         dd.bufferInit = bi;
         dd.bufferLen = 0;
-        for (List<DataDescriptor> childs : dd.childs) {
+        for (List<DataDescriptor> childs : dd.children) {
             for (DataDescriptor child : childs) {
                 dd.bufferLen += adjustLimit(child, bi + dd.bufferLen);
             }

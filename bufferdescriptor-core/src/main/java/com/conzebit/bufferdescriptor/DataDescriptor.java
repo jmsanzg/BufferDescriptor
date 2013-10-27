@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Internal class used by BufferDescriptor
+ * Internal helper class used by BufferDescriptor.
  */
 public class DataDescriptor implements Cloneable, Serializable {
 	
@@ -21,7 +21,7 @@ public class DataDescriptor implements Cloneable, Serializable {
     protected String name;
     protected int length;
     protected int occurs;
-    protected List<List<DataDescriptor>> childs;
+    protected List<List<DataDescriptor>> children;
     protected String indexPosition;
     protected int bufferInit = 0;
     protected int bufferLen = 0;
@@ -51,9 +51,9 @@ public class DataDescriptor implements Cloneable, Serializable {
         }
         this.occurs = occurs;
 
-        this.childs = new ArrayList<List<DataDescriptor>>(this.occurs);
+        this.children = new ArrayList<List<DataDescriptor>>(this.occurs);
         for (int i = 0; i < this.occurs; i++) {
-            this.childs.add(new ArrayList<DataDescriptor>(0));
+            this.children.add(new ArrayList<DataDescriptor>(0));
         }
         this.indexPosition = "";
         this.type = type;
@@ -61,9 +61,9 @@ public class DataDescriptor implements Cloneable, Serializable {
 
     protected final Object clone() throws CloneNotSupportedException {
         DataDescriptor clon = (DataDescriptor) super.clone();
-        this.childs = new ArrayList<List<DataDescriptor>>(this.occurs);
+        this.children = new ArrayList<List<DataDescriptor>>(this.occurs);
         for (int i = 0; i < this.occurs; i++) {
-            this.childs.add(new ArrayList<DataDescriptor>(0));
+            this.children.add(new ArrayList<DataDescriptor>(0));
         }
         return clon;
     }

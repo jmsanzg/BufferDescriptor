@@ -64,10 +64,11 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * </code></b>
      * @param name Name of the field
      * @param format Format as used by SimpleDateFormat.
+     * @param index optional parameters with indexes of the field name
      * @return a Calendar instance or an exception if unable to parse the field
      */
-    public final Calendar getDate(final String name, final String format) {
-        return getDate(name, format, Locale.getDefault());
+    public final Calendar getDate(final String name, final String format, final int... index) {
+        return getDate(name, format, Locale.getDefault(), index);
     }
 
     /**
@@ -81,10 +82,11 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * @param name Name of the field
      * @param format Format as used by SimpleDateFormat
      * @param locale Locale to be used
+     * @param index optional parameters with indexes of the field name
      * @return a Calendar instance or an exception if unable to parse the field
      */
-    public final Calendar getDate(final String name, final String format, final Locale locale) {
-        String value = this.getString(name);
+    public final Calendar getDate(final String name, final String format, final Locale locale, final int... index) {
+        String value = this.getString(name, index);
         SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
         try {
             Date d = sdf.parse(value);
@@ -105,20 +107,22 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * <br />
      * @param name Name of the field
      * @param numDecimal Number of decimal positions of the double field
+     * @param index optional parameters with indexes of the field name
      * @return Value as double type
      */
-    public final double getDouble(final String name, final int numDecimal) {
-        return (this.getInt(name) / Math.pow(10, numDecimal));
+    public final double getDouble(final String name, final int numDecimal, final int... index) {
+        return (this.getInt(name, index) / Math.pow(10, numDecimal));
     }
 
     /**
      * Returns a field as an int value
      * @param name Name of the field
+     * @param index optional parameters with indexes of the field name
      * @return Integer value of the field
      */
-    public final int getInt(final String name) {
+    public final int getInt(final String name, final int... index) {
         int ret = -1;
-        String sRet = this.getValue(name);
+        String sRet = this.getValue(name, index);
         if (sRet != null) {
             try {
                 ret = Integer.parseInt(sRet);
@@ -132,11 +136,12 @@ public class BufferDescriptor implements Cloneable, Serializable {
     /**
      * Returns a field as a long value
      * @param name Name of the field
+     * @param index optional parameters with indexes of the field name
      * @return Long value of the field
      */
-    public final long getLong(final String name) {
+    public final long getLong(final String name, final int... index) {
         long ret = -1;
-        String sRet = this.getValue(name);
+        String sRet = this.getValue(name, index);
         if (sRet != null) {
             try {
                 ret = Long.parseLong(sRet);
@@ -148,12 +153,13 @@ public class BufferDescriptor implements Cloneable, Serializable {
     }
 
     /**
-     * Returns a field as string-
+     * Returns a field as string.
      * @param name Name of the variable
+     * @param index optional parameters with indexes of the field name
      * @return String value of the field
      */
-    public final String getString(final String name) {
-        return this.getValue(name);
+    public final String getString(final String name, final int... index) {
+        return this.getValue(name, index);
     }
 
     /**
@@ -196,9 +202,10 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * @param name Name of the field
      * @param calendar Calendar instance
      * @param format Formato as used by SimpleDateFormat
+     * @param index optional parameters with indexes of the field name
      */
-    public final void setDate(final String name, final Calendar calendar, final String format) {
-        this.setDate(name, calendar, format, Locale.getDefault());
+    public final void setDate(final String name, final Calendar calendar, final String format, final int... index) {
+        this.setDate(name, calendar, format, Locale.getDefault(), index);
     }
 
     /**
@@ -207,8 +214,10 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * @param calendar Calendar instance
      * @param format Format as used by SimpleDateFormat
      * @param locale Locale to be used
+     * @param index optional parameters with indexes of the field name
      */
-    public final void setDate(final String name, final Calendar calendar, final String format, final Locale locale) {
+    public final void setDate(final String name, final Calendar calendar, final String format, final Locale locale,
+                              final int... index) {
         if (format == null) {
             throw new IllegalArgumentException(IBufferConstant.ERROR_NULL_FORMAT);
         }
@@ -219,7 +228,7 @@ public class BufferDescriptor implements Cloneable, Serializable {
             value = sdf.format(calendar.getTime());
         }
 
-        this.setValue(name, value, DataDescriptor.Type.STRING);
+        this.setValue(name, value, DataDescriptor.Type.STRING, index);
     }
 
     /**
@@ -234,10 +243,11 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * @param name Name of the field
      * @param value Value to be set
      * @param numDecimal Number of digits of the decimal part
+     * @param index optional parameters with indexes of the field name
      */
-    public final void setDouble(final String name, final double value, final int numDecimal) {
+    public final void setDouble(final String name, final double value, final int numDecimal, final int... index) {
         int val = (int) (value * (Math.pow(10, numDecimal)));
-        this.setInt(name, val);
+        this.setInt(name, val, index);
     }
 
     /**
@@ -250,18 +260,20 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * The field would be filled with a value of <b><code>00012345</code></b>
      * @param name Name of the field
      * @param value Value to be set
+     * @param index optional parameters with indexes of the field name
      */
-    public final void setInt(final String name, final int value) {
-        this.setValue(name, String.valueOf(value), DataDescriptor.Type.NUMBER);
+    public final void setInt(final String name, final int value, final int... index) {
+        this.setValue(name, String.valueOf(value), DataDescriptor.Type.NUMBER, index);
     }
 
     /**
      * Sets a long to a field
      * @param name Name of the field
      * @param value Value to be set
+     * @param index optional parameters with indexes of the field name
      */
-    public final void setLong(final String name, final long value) {
-        this.setValue(name, String.valueOf(value), DataDescriptor.Type.NUMBER);
+    public final void setLong(final String name, final long value, final int... index) {
+        this.setValue(name, String.valueOf(value), DataDescriptor.Type.NUMBER, index);
     }
 
     /**
@@ -269,18 +281,20 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * the field size then it's filled by right spaces.
      * @param name Field name
      * @param value Value to be set
+     * @param index optional parameters with indexes of the field name
      */
-    public final void setString(final String name, final String value) {
-        this.setValue(name, value, DataDescriptor.Type.STRING);
+    public final void setString(final String name, final String value, final int... index) {
+        this.setValue(name, value, DataDescriptor.Type.STRING, index);
     }
 
     /**
      * Returns the value of the field
      * @param name Name of the field
      * @return value of the field or null if it doesn't exist
+     * @param index optional parameters with indexes of the field name
      */
-    private String getValue(final String name) {
-        DataDescriptor dd = this.descriptorHash.get(name);
+    private String getValue(final String name, int... index) {
+        DataDescriptor dd = this.descriptorHash.get(composeNameWithIndexes(name, index));
         if (dd == null) {
             throw new IllegalArgumentException(IBufferConstant.ERROR_NAME_DOESNT_EXIST);
         }
@@ -292,9 +306,10 @@ public class BufferDescriptor implements Cloneable, Serializable {
      * @param name Name of the field
      * @param value vañie of the field
      * @param type Data Type
+     * @param index optional parameters with indexes of the field name
      */
-    private void setValue(final String name, final String value, final DataDescriptor.Type type) {
-        DataDescriptor dd = this.descriptorHash.get(name);
+    private void setValue(final String name, final String value, final DataDescriptor.Type type, final int...index) {
+        DataDescriptor dd = this.descriptorHash.get(composeNameWithIndexes(name, index));
         if (dd == null) {
             throw new IllegalArgumentException(IBufferConstant.ERROR_DESCRIPTOR_NOT_FOUND + name);
         }
@@ -328,5 +343,23 @@ public class BufferDescriptor implements Cloneable, Serializable {
         }
 
         System.arraycopy(processedValue.getBytes(), 0, this.buffer, dd.bufferInit, dd.bufferLen);
+    }
+
+    /**
+     * Retrieves a full name given a field name and an undetermined number of indexes.
+     * @param name Name of the field
+     * @param index Optional index or indexes for that field
+     * @return Returns a composed name with indexes already in place if needed
+     */
+    private String composeNameWithIndexes(String name, int...index) {
+        String fullName = name;
+        if (index != null && index.length > 0) {
+            StringBuilder sb = new StringBuilder(fullName);
+            for (int i : index) {
+                sb.append('(').append(i).append(')');
+            }
+            fullName = sb.toString();
+        }
+        return fullName;
     }
 }

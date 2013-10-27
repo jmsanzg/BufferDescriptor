@@ -93,6 +93,20 @@ public class BufferTest {
     }
 
     @Test
+    public void testNestingVariableArguments() {
+
+        bd.setString("FIELD_E11", "a", 1, 1); // same as "FIELD_EL1(1)(1)
+        bd.setString("FIELD_E11", "b", 1, 2); // same as "FIELD_EL1(1)(2)
+        bd.setString("FIELD_E11", "c", 2, 1); // same as "FIELD_EL1(2)(1)
+        bd.setString("FIELD_E11", "d", 2, 2); // same as "FIELD_EL1(2)(2)
+
+        Assert.assertEquals("a", bd.getString("FIELD_E11", 1, 1));
+        Assert.assertEquals("b", bd.getString("FIELD_E11", 1, 2));
+        Assert.assertEquals("c", bd.getString("FIELD_E11", 2, 1));
+        Assert.assertEquals("d", bd.getString("FIELD_E11", 2, 2));
+    }
+
+    @Test
     public void testBuffer() {
         Calendar cal = Calendar.getInstance();
         bd.setString("FIELD_D(1)", "field_d_1");

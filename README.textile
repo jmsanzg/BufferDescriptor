@@ -1,7 +1,6 @@
 h1. COBOL Buffers for Java
 
-Define a Buffer the same way you define it with COBOL and you'll be able to manage the byte[] returned by COBOL in a
-really easy way
+Define a Buffer the same way you define it with COBOL and you'll be able to manage the byte[] returned by COBOL in a really easy way
 
 h1. Sample of use
 

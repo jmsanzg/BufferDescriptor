@@ -66,3 +66,26 @@ bd.setString("PHONE(2)", "555-111111");
 
 byte[] buffer = bd.getBuffer();
 </pre>
+
+As an extra, if you have some nested fields each one with an OCCURS like the following buffer:
+
+<pre>
+BufferDescriptor bd = new BufferBuilder()
+    .addDataDescription(1, "CLIENT")
+        .addDataDescription(5, "A", 3)
+            .addDataDescription(10, "B", 4)
+                .addDataDescription(15, "C", 5)
+                    .addDataDescription(20, "D", "X")
+                    .endDataDescription();
+</pre>
+
+To access to the D field you have two ways:
+<pre>
+// First way
+String d = bd.getString("D(3)(4)(5)");
+
+// Second way
+String d = bd.getString("D", 3, 4, 5);
+</pre>
+
+The second way is best when you want to put that inside loops or have a variable that holds the value of the index. This way you don't have to compose the String of the field name. This solution allows an unlimited amount of nested fields.

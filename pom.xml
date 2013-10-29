@@ -31,7 +31,7 @@
     <distributionManagement>
         <repository>
             <id>bintray</id>
-            <url>https://api.bintray.com/maven/jmsanzg/bufferdescriptor-core/package</url>
+            <url>https://api.bintray.com/maven/jmsanzg/bufferdescriptor-core/repo/bufferdescriptor-core</url>
         </repository>
     </distributionManagement>
 

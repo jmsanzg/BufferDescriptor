@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.conzebit.bufferdescriptor</groupId>
         <artifactId>bufferdescriptor-parent</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
     <artifactId>bufferdescriptor-core</artifactId>
     <packaging>jar</packaging>

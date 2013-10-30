@@ -30,8 +30,9 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray</id>
-            <url>https://api.bintray.com/maven/jmsanzg/bufferdescriptor-core/repo/bufferdescriptor-core</url>
+            <id>bintray-jmsanzg-maven-bufferdescriptor</id>
+            <name>jmsanzg-maven-bufferdescriptor</name>
+            <url>https://api.bintray.com/maven/jmsanzg/maven/bufferdescriptor</url>
         </repository>
     </distributionManagement>
 
